@@ -1,0 +1,41 @@
+{
+  "compilerOptions": {
+    // File layout
+    "rootDir": "./src",
+    "outDir": "./dist",
+
+    // Modern output → faster JS runtime
+    "module": "ESNext",           // Enables tree shaking + native ESM
+    "target": "ES2022",           // Modern JS (faster than down‑leveling to ES5/ES6)
+    "lib": ["ES2022"],            // Match target, avoids polyfills
+
+    // Minification-friendly
+    "removeComments": true,       // Strip comments (tiny output)
+    "noEmitHelpers": true,        // Don't inline helpers – use tslib instead
+    "importHelpers": true,        // Import from tslib (reduces duplication)
+
+    // Fastest incremental builds (optional)
+    "incremental": true,
+    "tsBuildInfoFile": ".tsbuildinfo",
+
+    // Disable declaration files (unless you need .d.ts)
+    "declaration": false,
+    "declarationMap": false,
+    "sourceMap": false,           // Maps are helpful for debugging but not for speed
+
+    // Strictness (keeps code safe, may help optimizers)
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "skipLibCheck": true,
+    // "verbatimModuleSyntax": true,
+    "isolatedModules": true,
+    "moduleDetection": "force",
+
+
+
+    // If using React
+    "jsx": "react-jsx"
+  },
+  "include": ["src/**/*"]
+}

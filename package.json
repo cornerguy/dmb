@@ -1,0 +1,29 @@
+{
+  "name": "digitalmenubackend",
+  "version": "1.0.0",
+  "description": "Digital menu backend API",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "concurrently \"npx prettier --watch --ignore-unknown .\" \"tsx watch src/index.ts\"",
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "@prisma/adapter-pg": "^7.8.0",
+    "@prisma/client": "^7.8.0",
+    "bcryptjs": "^3.0.3",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "express-rate-limit": "^8.5.2",
+    "helmet": "^8.2.0",
+    "jsonwebtoken": "^9.0.3",
+    "pg": "^8.21.0"
+  }
+ 
+}
