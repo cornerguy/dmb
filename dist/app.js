@@ -26,6 +26,8 @@ export async function refreshOrigins() {
 }
 app.use(cors({
     origin(origin, callback) {
+        console.log(origin);
+        console.log(allowedOrigins)
         if (!origin)
             return callback(null, true);
         if (allowedOrigins.has(origin) || STATIC_ORIGINS.has(origin)) {
