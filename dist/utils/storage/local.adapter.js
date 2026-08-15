@@ -1,6 +1,6 @@
 import fs from 'fs/promises';
 import path from 'path';
-import { UPLOAD_ROOT, UPLOAD_PUBLIC_BASE } from '../../env';
+import { UPLOAD_ROOT, UPLOAD_PUBLIC_BASE } from '../../env.js';
 export class LocalStorageAdapter {
     async upload(buffer, key) {
         const dest = path.join(UPLOAD_ROOT || "", key);

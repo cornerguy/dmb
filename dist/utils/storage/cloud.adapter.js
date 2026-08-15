@@ -1,5 +1,5 @@
 import { S3Client, PutObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3';
-import { S3_REGION, S3_ACCESS_KEY_ID, S3_BUCKET, S3_SECRET_ACCESS_KEY, S3_PUBLIC_URL_BASE } from '../../env';
+import { S3_REGION, S3_ACCESS_KEY_ID, S3_BUCKET, S3_SECRET_ACCESS_KEY, S3_PUBLIC_URL_BASE } from '../../env.js';
 const client = new S3Client({
     region: S3_REGION || '',
     credentials: {
