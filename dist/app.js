@@ -12,7 +12,8 @@ import rateLimit from "express-rate-limit";
 import { prisma } from "./lib/prisma.js";
 const app = express();
 const STATIC_ORIGINS = new Set([
-    "https://dmf-bay.vercel.app/"
+    "https://dmf-bay.vercel.app/",
+    "https://dmb-ci5t.onrender.com/"
 ]);
 let allowedOrigins = new Set([""]);
 export async function refreshOrigins() {
