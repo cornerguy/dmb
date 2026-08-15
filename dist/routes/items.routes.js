@@ -1,9 +1,10 @@
 import { Router } from "express";
 import { addItem, deleteItem, getItemsByCategory, updateItem } from "../controllers/items.controller.js";
 import { authenticate, verifyCategoryOwnership, verifyItemOwnership } from '../middleware/auth.middleware.js';
+import { upload } from "../middleware/upload.middleware.js";
 const itemRouter = Router();
-itemRouter.route("/add").post(authenticate, verifyCategoryOwnership, addItem);
+itemRouter.route("/add").post(authenticate, upload.single('image'), verifyCategoryOwnership, addItem);
 itemRouter.route("/get/:cid").get(getItemsByCategory);
-itemRouter.route("/update").patch(authenticate, verifyItemOwnership, updateItem);
-itemRouter.route("/delete/:itemid").delete(authenticate, verifyItemOwnership, deleteItem);
+itemRouter.route("/update").patch(authenticate, upload.single('image'), verifyItemOwnership, updateItem);
+itemRouter.route("/delete/:item_id").delete(authenticate, verifyItemOwnership, deleteItem);
 export default itemRouter;

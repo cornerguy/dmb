@@ -29,7 +29,9 @@ export const verifyRestaurantOwnership = (req, res, next) => {
     next();
 };
 export const verifyCategoryOwnership = async (req, res, next) => {
-    const categoryId = req.body?.para?.category_id || req.params.categoryid;
+    const rawPara = req.body?.para;
+    const para = typeof req.body?.para === 'string' ? JSON.parse(rawPara) : rawPara;
+    const categoryId = para?.category_id || req.params.categoryid;
     if (!categoryId) {
         res.status(400).json(new ErrorResponse(400, 'category_id missing'));
         return;
@@ -49,8 +51,10 @@ export const verifyCategoryOwnership = async (req, res, next) => {
     next();
 };
 export const verifyItemOwnership = async (req, res, next) => {
-    const itemId = req.body?.para?.item_id || req.params.itemid;
-    if (!itemId) {
+    const rawPara = req.body?.para || req.params;
+    const para = typeof rawPara === 'string' ? JSON.parse(rawPara) : rawPara;
+    const { item_id } = para;
+    if (!item_id) {
         res.status(400).json(new ErrorResponse(400, 'item_id missing in request body'));
         return;
     }
@@ -59,7 +63,7 @@ export const verifyItemOwnership = async (req, res, next) => {
         return;
     }
     const item = await prisma.item.findUnique({
-        where: { publicId: itemId },
+        where: { publicId: item_id },
         include: { category: { select: { restaurant_id: true } } }
     });
     if (!item) {

@@ -6,7 +6,6 @@ import { ErrorResponse } from "./utils/Error-Response.js";
 import restaurantRouter from "./routes/restaurant.routes.js";
 import categoryRouter from "./routes/category.routes.js";
 import itemRouter from "./routes/items.routes.js";
-import cookieParser from "cookie-parser";
 import authRouter from "./routes/auth.routes.js";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
@@ -14,6 +13,7 @@ import { prisma } from "./lib/prisma.js";
 const app = express();
 const STATIC_ORIGINS = new Set([
     "http://localhost:3000",
+    "http://192.168.1.12:3000",
     "http://localhost:5173",
 ]);
 let allowedOrigins = new Set([""]);
@@ -47,7 +47,6 @@ const limiter = rateLimit({
     legacyHeaders: false,
 });
 app.use(limiter);
-app.use(cookieParser());
 app.use(express.json({ limit: "16KB" }));
 app.use(express.urlencoded({ extended: true, limit: "16KB" }));
 app.use("/api/v1/health", HealthRouter);

@@ -20,7 +20,7 @@ export const getRestaurantInfo = asyncHandler(async (req, res) => {
     res.status(200).json(new ApiResponse(200, restaurant, true, "Restaurant fetched successfully"));
 });
 export const updateRestaurantInfo = asyncHandler(async (req, res) => {
-    const { restaurant_id, name, tagline, primaryColor, accentColor, tabStyle, logoUrl, backgroundUrl, roundness, showSearch, showItemCount, stickyNav, domain, showDivider, headerText } = req.body?.para || {};
+    const { restaurant_id, name, tagline, primaryColor, accentColor, tabStyle, logoUrl, backgroundUrl, roundness, showSearch, showItemCount, stickyNav, domain, showDivider, headerText, defaultImageUrl, showItemImage, headerLayout, logoShape, overlayStyle, overlayIntensity, headingFont, headerAlign, headerSize, categoryVariant, categorySize, itemSize, itemImagePosition, itemImageShape, currencySymbol, surfaceColor, boardEnabled, boardText } = req.body?.para || {};
     if (!restaurant_id) {
         res.status(400).json(new ErrorResponse(400, "Missing 'restaurant_id' in request body.para"));
         return;
@@ -51,8 +51,6 @@ export const updateRestaurantInfo = asyncHandler(async (req, res) => {
         updateData.showItemCount = showItemCount;
     if (stickyNav !== undefined)
         updateData.stickyNav = stickyNav;
-    if (domain !== undefined)
-        updateData.domain = domain;
     if (logoUrl !== undefined)
         updateData.logoUrl = logoUrl;
     if (backgroundUrl !== undefined)
@@ -61,6 +59,44 @@ export const updateRestaurantInfo = asyncHandler(async (req, res) => {
         updateData.showDivider = showDivider;
     if (headerText !== undefined)
         updateData.headerText = headerText;
+    if (showItemImage !== undefined)
+        updateData.showItemImage = showItemImage;
+    if (defaultImageUrl !== undefined)
+        updateData.defaultImageUrl = defaultImageUrl;
+    if (headerLayout !== undefined)
+        updateData.headerLayout = headerLayout;
+    if (logoShape !== undefined)
+        updateData.logoShape = logoShape;
+    if (overlayStyle !== undefined)
+        updateData.overlayStyle = overlayStyle;
+    if (overlayIntensity !== undefined)
+        updateData.overlayIntensity = overlayIntensity;
+    if (headingFont !== undefined)
+        updateData.headingFont = headingFont;
+    if (headingFont !== undefined)
+        updateData.headingFont = headingFont;
+    if (headerAlign !== undefined)
+        updateData.headerAlign = headerAlign;
+    if (headerSize !== undefined)
+        updateData.headerSize = headerSize;
+    if (categorySize !== undefined)
+        updateData.categorySize = categorySize;
+    if (categoryVariant !== undefined)
+        updateData.categoryVariant = categoryVariant;
+    if (itemSize !== undefined)
+        updateData.itemSize = itemSize;
+    if (itemImagePosition !== undefined)
+        updateData.itemImagePosition = itemImagePosition;
+    if (itemImageShape !== undefined)
+        updateData.itemImageShape = itemImageShape;
+    if (currencySymbol !== undefined)
+        updateData.currencySymbol = currencySymbol;
+    if (surfaceColor !== undefined)
+        updateData.surfaceColor = surfaceColor;
+    if (boardEnabled !== undefined)
+        updateData.boardEnabled = boardEnabled;
+    if (boardText !== undefined && boardText !== null)
+        updateData.boardText = boardText;
     if (Object.keys(updateData).length === 0) {
         res.status(400).json(new ErrorResponse(400, "No update fields provided (name, tagline, primaryColor, accentColor)"));
         return;

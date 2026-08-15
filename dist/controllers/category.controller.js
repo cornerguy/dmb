@@ -16,6 +16,18 @@ export const addCategory = asyncHandler(async (req, res) => {
         res.status(404).json(new ErrorResponse(404, `Restaurant with id ${restaurant_id} not found`));
         return;
     }
+    const existingCategories = await prisma.category.findMany({
+        where: {
+            name: {
+                equals: name,
+                mode: "insensitive"
+            }
+        },
+    });
+    if (existingCategories.length !== 0) {
+        res.status(409).json(new ErrorResponse(409, "Category name Already Exist"));
+        return;
+    }
     const category = await prisma.category.create({
         data: { name, restaurant_id, icon },
     });
@@ -61,6 +73,20 @@ export const updateCategory = asyncHandler(async (req, res) => {
         updateData.name = name;
     if (icon !== undefined)
         updateData.icon = icon;
+    if (name !== undefined) {
+        const existingCategories = await prisma.category.findMany({
+            where: {
+                name: {
+                    equals: name,
+                    mode: "insensitive"
+                }
+            },
+        });
+        if (existingCategories.length !== 0) {
+            res.status(409).json(new ErrorResponse(409, "Category name Already Exist"));
+            return;
+        }
+    }
     if (Object.keys(updateData).length === 0) {
         res.status(400).json(new ErrorResponse(400, "No update fields provided (name or restaurant_id)"));
         return;

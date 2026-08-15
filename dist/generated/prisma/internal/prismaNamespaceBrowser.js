@@ -45,7 +45,25 @@ export const RestaurantScalarFieldEnum = {
     showItemCount: 'showItemCount',
     showDivider: 'showDivider',
     stickyNav: 'stickyNav',
-    domain: 'domain'
+    domain: 'domain',
+    defaultImageUrl: 'defaultImageUrl',
+    showItemImage: 'showItemImage',
+    headerLayout: 'headerLayout',
+    logoShape: 'logoShape',
+    overlayStyle: 'overlayStyle',
+    overlayIntensity: 'overlayIntensity',
+    headingFont: 'headingFont',
+    headerAlign: 'headerAlign',
+    headerSize: 'headerSize',
+    categoryVariant: 'categoryVariant',
+    categorySize: 'categorySize',
+    itemSize: 'itemSize',
+    itemImagePosition: 'itemImagePosition',
+    itemImageShape: 'itemImageShape',
+    currencySymbol: 'currencySymbol',
+    surfaceColor: 'surfaceColor',
+    boardEnabled: 'boardEnabled',
+    boardText: 'boardText'
 };
 export const CategoryScalarFieldEnum = {
     id: 'id',
@@ -61,7 +79,9 @@ export const ItemScalarFieldEnum = {
     description: 'description',
     price: 'price',
     category_id: 'category_id',
-    badges: 'badges'
+    badges: 'badges',
+    imageURL: 'imageURL',
+    available: 'available'
 };
 export const VariantScalarFieldEnum = {
     id: 'id',

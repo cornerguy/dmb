@@ -6,6 +6,7 @@ import ApiResponse from '../utils/API-Response.js';
 import { ErrorResponse } from '../utils/Error-Response.js';
 import { generateAccessToken, generateRefreshToken, verifyRefreshToken } from '../utils/jwt.js';
 import { NavStyle } from '../generated/prisma/enums.js';
+import { MAIN_DOMAIN } from '../env.js';
 import { refreshOrigins } from '../app.js';
 export const register = asyncHandler(async (req, res) => {
     const { username, password, restaurantName, tagline, primaryColor, accentColor, tabStyle, roundness, showSearch, showItemCount, stickyNav, domain } = req.body?.para || {};
@@ -33,7 +34,7 @@ export const register = asyncHandler(async (req, res) => {
                 password: hashedPassword,
             },
         });
-        const restaurant = await tx.restaurant.create({
+        const restaurant1 = await tx.restaurant.create({
             data: {
                 publicId: restaurantPublicId,
                 name: restaurantName,
@@ -45,9 +46,12 @@ export const register = asyncHandler(async (req, res) => {
                 adminId: admin.publicId,
                 showSearch,
                 showItemCount,
-                stickyNav,
-                domain
+                stickyNav
             },
+        });
+        const restaurant = await tx.restaurant.update({
+            where: { publicId: restaurant1.publicId },
+            data: { domain: `${MAIN_DOMAIN}/${restaurant1.publicId}/` },
         });
         return { admin, restaurant };
     });
@@ -202,8 +206,6 @@ export const updateRestaurant = async (req, res, next) => {
             restaurantData.showItemCount = restaurant.showItemCount;
         if (restaurant?.stickyNav !== undefined)
             restaurantData.stickyNav = restaurant.stickyNav;
-        if (restaurant?.domain !== undefined)
-            restaurantData.domain = restaurant.domain;
         const [updatedRestaurant, updatedAdmin] = await prisma.$transaction([
             prisma.restaurant.update({
                 where: { publicId: restaurantPublicId },
