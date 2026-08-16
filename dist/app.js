@@ -12,22 +12,16 @@ import rateLimit from "express-rate-limit";
 import { prisma } from "./lib/prisma.js";
 const app = express();
 const STATIC_ORIGINS = new Set([
-    "https://dmf-bay.vercel.app/",
-    "https://dmb-ci5t.onrender.com/"
+    "https://dmf-bay.vercel.app",
+    "https://dmf-hf38eaklw-cornerguys-projects.vercel.app"
 ]);
 let allowedOrigins = new Set([""]);
 export async function refreshOrigins() {
-    const restaurants = await prisma.restaurant.findMany({
-        select: { domain: true },
-        where: { domain: { not: "" } },
-    });
-    allowedOrigins = new Set((restaurants ?? []).map(r => r.domain));
-    console.log(`[CORS] Refreshed ${allowedOrigins.size} dynamic origins`);
 }
 app.use(cors({
     origin(origin, callback) {
         console.log(origin);
-        console.log(allowedOrigins)
+        console.log(STATIC_ORIGINS)
         if (!origin)
             return callback(null, true);
         if (allowedOrigins.has(origin) || STATIC_ORIGINS.has(origin)) {
