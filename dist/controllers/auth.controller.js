@@ -7,7 +7,6 @@ import { ErrorResponse } from '../utils/Error-Response.js';
 import { generateAccessToken, generateRefreshToken, verifyRefreshToken } from '../utils/jwt.js';
 import { NavStyle } from '../generated/prisma/enums.js';
 import { MAIN_DOMAIN } from '../env.js';
-import { refreshOrigins } from '../app.js';
 export const register = asyncHandler(async (req, res) => {
     const { username, password, restaurantName, tagline, primaryColor, accentColor, tabStyle, roundness, showSearch, showItemCount, stickyNav, domain } = req.body?.para || {};
     if (!username || !password) {
@@ -68,7 +67,6 @@ export const register = asyncHandler(async (req, res) => {
         where: { publicId: admin.publicId },
         data: { refreshToken: hashedRefresh },
     });
-    await refreshOrigins();
     res.status(201).json(new ApiResponse(201, {
         accessToken,
         refreshToken,
@@ -217,9 +215,6 @@ export const updateRestaurant = async (req, res, next) => {
             }),
         ]);
         const { password: _pw, refreshToken: _rt, ...safeAdmin } = updatedAdmin;
-        if (restaurant?.domain) {
-            await refreshOrigins();
-        }
         return res.json(new ApiResponse(200, { restaurant: updatedRestaurant, admin: safeAdmin }, true, 'Restaurant and admin updated successfully'));
     }
     catch (error) {
@@ -249,6 +244,5 @@ export const deleteAdmin = asyncHandler(async (req, res) => {
             where: { publicId },
         });
     });
-    await refreshOrigins();
     res.status(200).json(new ApiResponse(200, null, true, 'Admin deleted successfully'));
 });

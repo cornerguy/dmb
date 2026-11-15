@@ -9,13 +9,18 @@ const client = new S3Client({
 });
 export class S3StorageAdapter {
     async upload(buffer, key) {
-        await client.send(new PutObjectCommand({
-            Bucket: S3_BUCKET,
-            Key: key,
-            Body: buffer,
-            ContentType: 'image/webp',
-            CacheControl: 'public, max-age=15552000',
-        }));
+        try {
+            await client.send(new PutObjectCommand({
+                Bucket: S3_BUCKET,
+                Key: key,
+                Body: buffer,
+                ContentType: 'image/webp',
+                CacheControl: 'public, max-age=15552000',
+            }));
+        }
+        catch (error) {
+            console.log(error);
+        }
     }
     async delete(key) {
         await client.send(new DeleteObjectCommand({

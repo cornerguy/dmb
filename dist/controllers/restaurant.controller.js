@@ -20,7 +20,7 @@ export const getRestaurantInfo = asyncHandler(async (req, res) => {
     res.status(200).json(new ApiResponse(200, restaurant, true, "Restaurant fetched successfully"));
 });
 export const updateRestaurantInfo = asyncHandler(async (req, res) => {
-    const { restaurant_id, name, tagline, primaryColor, accentColor, tabStyle, logoUrl, backgroundUrl, roundness, showSearch, showItemCount, stickyNav, domain, showDivider, headerText, defaultImageUrl, showItemImage, headerLayout, logoShape, overlayStyle, overlayIntensity, headingFont, headerAlign, headerSize, categoryVariant, categorySize, itemSize, itemImagePosition, itemImageShape, currencySymbol, surfaceColor, boardEnabled, boardText } = req.body?.para || {};
+    const { restaurant_id, name, tagline, primaryColor, accentColor, tabStyle, logoUrl, backgroundUrl, roundness, showSearch, showItemCount, stickyNav, domain, showDivider, headerText, defaultImageUrl, showItemImage, headerLayout, logoShape, overlayStyle, overlayIntensity, headingFont, headerAlign, headerSize, categoryVariant, categorySize, itemSize, itemImagePosition, itemImageShape, currencySymbol, surfaceColor, boardEnabled, boardText, BodyTextColor, headerAccentPanel, headerPanelIntensity, headerNameGradient, headerUppercaseTagline, headerShimmer, headerNameColor, headerTaglineColor, showLogo, logoSize, headerBackgroundPosition, headerBackgroundZoom, headerDividerStyle, headerSpacing, headerMaxWidth } = req.body?.para || {};
     if (!restaurant_id) {
         res.status(400).json(new ErrorResponse(400, "Missing 'restaurant_id' in request body.para"));
         return;
@@ -73,8 +73,6 @@ export const updateRestaurantInfo = asyncHandler(async (req, res) => {
         updateData.overlayIntensity = overlayIntensity;
     if (headingFont !== undefined)
         updateData.headingFont = headingFont;
-    if (headingFont !== undefined)
-        updateData.headingFont = headingFont;
     if (headerAlign !== undefined)
         updateData.headerAlign = headerAlign;
     if (headerSize !== undefined)
@@ -95,8 +93,38 @@ export const updateRestaurantInfo = asyncHandler(async (req, res) => {
         updateData.surfaceColor = surfaceColor;
     if (boardEnabled !== undefined)
         updateData.boardEnabled = boardEnabled;
+    if (BodyTextColor !== undefined)
+        updateData.BodyTextColor = BodyTextColor;
     if (boardText !== undefined && boardText !== null)
         updateData.boardText = boardText;
+    if (headerAccentPanel !== undefined)
+        updateData.headerAccentPanel = headerAccentPanel;
+    if (headerPanelIntensity !== undefined)
+        updateData.headerPanelIntensity = headerPanelIntensity;
+    if (headerNameGradient !== undefined)
+        updateData.headerNameGradient = headerNameGradient;
+    if (headerUppercaseTagline !== undefined)
+        updateData.headerUppercaseTagline = headerUppercaseTagline;
+    if (headerShimmer !== undefined)
+        updateData.headerShimmer = headerShimmer;
+    if (headerNameColor !== undefined)
+        updateData.headerNameColor = headerNameColor;
+    if (headerTaglineColor !== undefined)
+        updateData.headerTaglineColor = headerTaglineColor;
+    if (showLogo !== undefined)
+        updateData.showLogo = showLogo;
+    if (logoSize !== undefined)
+        updateData.logoSize = logoSize;
+    if (headerBackgroundPosition !== undefined)
+        updateData.headerBackgroundPosition = headerBackgroundPosition;
+    if (headerBackgroundZoom !== undefined)
+        updateData.headerBackgroundZoom = headerBackgroundZoom;
+    if (headerDividerStyle !== undefined)
+        updateData.headerDividerStyle = headerDividerStyle;
+    if (headerSpacing !== undefined)
+        updateData.headerSpacing = headerSpacing;
+    if (headerMaxWidth !== undefined)
+        updateData.headerMaxWidth = headerMaxWidth;
     if (Object.keys(updateData).length === 0) {
         res.status(400).json(new ErrorResponse(400, "No update fields provided (name, tagline, primaryColor, accentColor)"));
         return;

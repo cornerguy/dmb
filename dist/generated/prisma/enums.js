@@ -54,3 +54,33 @@ export const itemImageShapeN = {
     square: 'square',
     circle: 'circle'
 };
+export const logoSizeN = {
+    auto: 'auto',
+    sm: 'sm',
+    md: 'md',
+    lg: 'lg'
+};
+export const headerBackgroundPositionN = {
+    top: 'top',
+    center: 'center',
+    bottom: 'bottom',
+    left: 'left',
+    right: 'right'
+};
+export const dividerStyleN = {
+    line: 'line',
+    dots: 'dots',
+    diamond: 'diamond',
+    none: 'none'
+};
+export const headerSpacingN = {
+    tight: 'tight',
+    default: 'default',
+    loose: 'loose'
+};
+export const headerMaxWidthN = {
+    sm: 'sm',
+    md: 'md',
+    lg: 'lg',
+    full: 'full'
+};

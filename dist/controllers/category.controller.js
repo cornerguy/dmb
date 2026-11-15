@@ -82,7 +82,7 @@ export const updateCategory = asyncHandler(async (req, res) => {
                 }
             },
         });
-        if (existingCategories.length !== 0) {
+        if (existingCategories.length !== 0 && existingCategories[0]?.publicId !== category_id) {
             res.status(409).json(new ErrorResponse(409, "Category name Already Exist"));
             return;
         }
