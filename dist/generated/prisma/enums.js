@@ -60,13 +60,6 @@ export const logoSizeN = {
     md: 'md',
     lg: 'lg'
 };
-export const headerBackgroundPositionN = {
-    top: 'top',
-    center: 'center',
-    bottom: 'bottom',
-    left: 'left',
-    right: 'right'
-};
 export const dividerStyleN = {
     line: 'line',
     dots: 'dots',

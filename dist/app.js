@@ -14,7 +14,6 @@ const STATIC_ORIGINS = new Set([
     "http://localhost:3000",
     "http://192.168.1.12:3000",
     "http://localhost:5173",
-    "https://dmf-bay.vercel.app/"
 ]);
 app.use(cors({
     origin(origin, callback) {

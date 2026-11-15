@@ -20,7 +20,7 @@ export const getRestaurantInfo = asyncHandler(async (req, res) => {
     res.status(200).json(new ApiResponse(200, restaurant, true, "Restaurant fetched successfully"));
 });
 export const updateRestaurantInfo = asyncHandler(async (req, res) => {
-    const { restaurant_id, name, tagline, primaryColor, accentColor, tabStyle, logoUrl, backgroundUrl, roundness, showSearch, showItemCount, stickyNav, domain, showDivider, headerText, defaultImageUrl, showItemImage, headerLayout, logoShape, overlayStyle, overlayIntensity, headingFont, headerAlign, headerSize, categoryVariant, categorySize, itemSize, itemImagePosition, itemImageShape, currencySymbol, surfaceColor, boardEnabled, boardText, BodyTextColor, headerAccentPanel, headerPanelIntensity, headerNameGradient, headerUppercaseTagline, headerShimmer, headerNameColor, headerTaglineColor, showLogo, logoSize, headerBackgroundPosition, headerBackgroundZoom, headerDividerStyle, headerSpacing, headerMaxWidth } = req.body?.para || {};
+    const { restaurant_id, name, tagline, primaryColor, accentColor, tabStyle, logoUrl, backgroundUrl, roundness, showSearch, showItemCount, stickyNav, domain, showDivider, headerText, defaultImageUrl, showItemImage, headerLayout, logoShape, overlayStyle, overlayIntensity, headingFont, headerAlign, headerSize, categoryVariant, categorySize, itemSize, itemImagePosition, itemImageShape, currencySymbol, surfaceColor, boardEnabled, boardText, BodyTextColor, headerAccentPanel, headerPanelIntensity, headerNameGradient, headerUppercaseTagline, headerShimmer, headerNameColor, headerTaglineColor, headerNameGradientFrom, headerNameGradientTo, headerNameGradientAngle, showLogo, logoSize, headerBackgroundPositionX, headerBackgroundPositionY, headerBackgroundZoom, headerDividerStyle, headerSpacing, headerMaxWidth } = req.body?.para || {};
     if (!restaurant_id) {
         res.status(400).json(new ErrorResponse(400, "Missing 'restaurant_id' in request body.para"));
         return;
@@ -111,12 +111,20 @@ export const updateRestaurantInfo = asyncHandler(async (req, res) => {
         updateData.headerNameColor = headerNameColor;
     if (headerTaglineColor !== undefined)
         updateData.headerTaglineColor = headerTaglineColor;
+    if (headerNameGradientFrom !== undefined)
+        updateData.headerNameGradientFrom = headerNameGradientFrom;
+    if (headerNameGradientTo !== undefined)
+        updateData.headerNameGradientTo = headerNameGradientTo;
+    if (headerNameGradientAngle !== undefined)
+        updateData.headerNameGradientAngle = headerNameGradientAngle;
     if (showLogo !== undefined)
         updateData.showLogo = showLogo;
     if (logoSize !== undefined)
         updateData.logoSize = logoSize;
-    if (headerBackgroundPosition !== undefined)
-        updateData.headerBackgroundPosition = headerBackgroundPosition;
+    if (headerBackgroundPositionX !== undefined)
+        updateData.headerBackgroundPositionX = headerBackgroundPositionX;
+    if (headerBackgroundPositionY !== undefined)
+        updateData.headerBackgroundPositionY = headerBackgroundPositionY;
     if (headerBackgroundZoom !== undefined)
         updateData.headerBackgroundZoom = headerBackgroundZoom;
     if (headerDividerStyle !== undefined)
