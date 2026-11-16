@@ -77,3 +77,9 @@ export const headerMaxWidthN = {
     lg: 'lg',
     full: 'full'
 };
+export const pdfDownloadPlacementN = {
+    bottom_right: 'bottom_right',
+    bottom_left: 'bottom_left',
+    top_right: 'top_right',
+    top_left: 'top_left'
+};

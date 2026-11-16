@@ -82,7 +82,9 @@ export const RestaurantScalarFieldEnum = {
     currencySymbol: 'currencySymbol',
     surfaceColor: 'surfaceColor',
     boardEnabled: 'boardEnabled',
-    boardText: 'boardText'
+    boardText: 'boardText',
+    showPdfDownload: 'showPdfDownload',
+    pdfDownloadPlacement: 'pdfDownloadPlacement'
 };
 export const CategoryScalarFieldEnum = {
     id: 'id',
