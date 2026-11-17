@@ -18,6 +18,7 @@ export const addCategory = asyncHandler(async (req, res) => {
     }
     const existingCategories = await prisma.category.findMany({
         where: {
+            restaurant_id,
             name: {
                 equals: name,
                 mode: "insensitive"
@@ -76,6 +77,7 @@ export const updateCategory = asyncHandler(async (req, res) => {
     if (name !== undefined) {
         const existingCategories = await prisma.category.findMany({
             where: {
+                restaurant_id: existingCategory.restaurant_id,
                 name: {
                     equals: name,
                     mode: "insensitive"

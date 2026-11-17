@@ -38,6 +38,7 @@ export const addItem = asyncHandler(async (req, res) => {
     }
     const existingItem = await prisma.item.findMany({
         where: {
+            category_id: categoryIdStr,
             name: {
                 equals: name,
                 mode: "insensitive"
@@ -138,17 +139,21 @@ export const updateItem = asyncHandler(async (req, res) => {
     if (badgesToadd !== false)
         updateData.badges = badgesToadd;
     if (name !== undefined) {
-        const existingItem = await prisma.item.findMany({
-            where: {
-                name: {
-                    equals: name,
-                    mode: "insensitive"
-                }
-            },
-        });
-        if (existingItem.length !== 0 && existingItem[0]?.publicId !== itemIdStr) {
-            res.status(409).json(new ErrorResponse(409, "Existing name Already Exist"));
-            return;
+        const targetCategoryId = category_id !== undefined ? toString(category_id) : existingItem.category_id;
+        if (targetCategoryId) {
+            const duplicateItems = await prisma.item.findMany({
+                where: {
+                    category_id: targetCategoryId,
+                    name: {
+                        equals: name,
+                        mode: "insensitive"
+                    }
+                },
+            });
+            if (duplicateItems.length !== 0 && duplicateItems[0]?.publicId !== itemIdStr) {
+                res.status(409).json(new ErrorResponse(409, "Existing name Already Exist"));
+                return;
+            }
         }
     }
     if (category_id !== undefined) {
