@@ -5,6 +5,7 @@ import ApiResponse from "../utils/API-Response.js";
 import { uploadImage } from "../utils/upload.js";
 import { v4 as uuidv4 } from "uuid";
 import { storage } from "../utils/storage/index.js";
+import { UPLOAD_PUBLIC_BASE, S3_PUBLIC_URL_BASE } from "../env.js";
 const toString = (val) => {
     if (typeof val === "string")
         return val;
@@ -18,10 +19,30 @@ const toNumber = (val) => {
     const num = Number(val);
     return isNaN(num) ? null : num;
 };
+const parseImageUrl = (val) => {
+    if (val === undefined)
+        return { provided: false, value: null, valid: true };
+    if (val === null || typeof val !== "string" || val.trim() === "") {
+        return { provided: true, value: null, valid: true };
+    }
+    const trimmed = val.trim();
+    const valid = /^https?:\/\/\S+$/i.test(trimmed) || trimmed.startsWith("/");
+    return { provided: true, value: valid ? trimmed : null, valid };
+};
+const isManagedImageUrl = (url) => {
+    if (!url)
+        return false;
+    return [UPLOAD_PUBLIC_BASE, S3_PUBLIC_URL_BASE].some((base) => !!base && url.startsWith(base.replace(/\/+$/, "")));
+};
 export const addItem = asyncHandler(async (req, res) => {
     const rawPara = req.body?.para;
     const para = typeof rawPara === 'string' ? JSON.parse(rawPara) : rawPara;
-    const { name, description, price, category_id, variants, badges, available } = para || {};
+    const { name, description, price, category_id, variants, badges, available, imageURL } = para || {};
+    const parsedImageUrl = parseImageUrl(imageURL);
+    if (!parsedImageUrl.valid) {
+        res.status(400).json(new ErrorResponse(400, "imageURL must be a valid http(s) URL"));
+        return;
+    }
     if (!name || !category_id) {
         res.status(400).json(new ErrorResponse(400, "Missing required fields: name, category_id"));
         return;
@@ -75,7 +96,7 @@ export const addItem = asyncHandler(async (req, res) => {
             validatedVariants.push({ name: variantName, price: variantPrice });
         }
     }
-    const data = { name, description: description || null, category_id: categoryIdStr, badges: badgesToAdd || [], imageURL: "", available };
+    const data = { name, description: description || null, category_id: categoryIdStr, badges: badgesToAdd || [], imageURL: parsedImageUrl.value, available };
     if (hasPrice)
         data.price = priceNum;
     if (hasVariants)
@@ -99,7 +120,12 @@ export const addItem = asyncHandler(async (req, res) => {
 export const updateItem = asyncHandler(async (req, res) => {
     const rawPara = req.body?.para;
     const para = typeof rawPara === 'string' ? JSON.parse(rawPara) : rawPara;
-    const { item_id, name, description, price, category_id, variants, badges, removeImage, available } = para || {};
+    const { item_id, name, description, price, category_id, variants, badges, removeImage, available, imageURL } = para || {};
+    const parsedImageUrl = parseImageUrl(imageURL);
+    if (!parsedImageUrl.valid) {
+        res.status(400).json(new ErrorResponse(400, "imageURL must be a valid http(s) URL"));
+        return;
+    }
     if (!item_id) {
         res.status(400).json(new ErrorResponse(400, "Missing 'item_id' in request body.para"));
         return;
@@ -176,22 +202,28 @@ export const updateItem = asyncHandler(async (req, res) => {
         updateData.price = null;
     }
     let resStatus = { code: 200, msg: "Item Updated successfully" };
-    let ItemImageUrl = "";
-    if (removeImage || req.file) {
-        if (existingItem.imageURL !== null && existingItem.imageURL !== "") {
-            await storage.delete(existingItem.imageURL);
-            updateData.imageURL = null;
+    if (removeImage || req.file || parsedImageUrl.provided) {
+        if (existingItem.imageURL && isManagedImageUrl(existingItem.imageURL)) {
+            try {
+                await storage.delete(existingItem.imageURL);
+            }
+            catch (error) {
+                console.log(error);
+            }
         }
         if (req.file) {
             const publicUrl = await uploadImage(req.file.buffer, `itemsImages/${uuidv4()}.webp`);
             if (publicUrl) {
-                ItemImageUrl = String(publicUrl);
-                updateData.imageURL = ItemImageUrl;
+                updateData.imageURL = String(publicUrl);
             }
             else {
+                updateData.imageURL = parsedImageUrl.value;
                 resStatus.code = 207;
                 resStatus.msg = "Item Updated But Failed To Add Image";
             }
+        }
+        else {
+            updateData.imageURL = parsedImageUrl.value;
         }
     }
     const updatedItem = await prisma.$transaction(async (tx) => {
@@ -256,7 +288,7 @@ export const deleteItem = asyncHandler(async (req, res) => {
         return;
     }
     await prisma.item.delete({ where: { publicId: itemIdStr } });
-    if (existingItem.imageURL !== null && existingItem.imageURL !== "") {
+    if (existingItem.imageURL && isManagedImageUrl(existingItem.imageURL)) {
         try {
             await storage.delete(existingItem.imageURL);
         }

@@ -1,6 +1,7 @@
 export const NavStyle = {
     tabs: 'tabs',
-    dropdown: 'dropdown'
+    dropdown: 'dropdown',
+    continuous: 'continuous'
 };
 export const headerLayoutN = {
     banner: 'banner',
