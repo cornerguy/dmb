@@ -4,9 +4,7 @@ import { PORT } from "./env.js";
 const startServer = async () => {
     try {
         await connectdb();
-        app.listen(PORT, () => {
-            console.log(`DIGITAL MENU BACKEND RUNNING ${PORT}`);
-        });
+        app.listen(PORT);
     }
     catch (error) {
         console.error("Failed to connect to database:", error);

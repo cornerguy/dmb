@@ -120,8 +120,15 @@ export const addItem = asyncHandler(async (req, res) => {
             resStatus.msg = "Item Added But Failed To Add Image";
         }
     }
-    const item = await prisma.item.create({ data, include: { variants: true } });
-    res.status(resStatus.code).json(new ApiResponse(resStatus.code, item, true, resStatus.msg));
+    try {
+        const item = await prisma.item.create({ data, include: { variants: true } });
+        res.status(resStatus.code).json(new ApiResponse(resStatus.code, item, true, resStatus.msg));
+    }
+    catch (error) {
+        if (ItemImageUrl)
+            await storage.delete(ItemImageUrl).catch(() => { });
+        throw error;
+    }
     return;
 });
 export const updateItem = asyncHandler(async (req, res) => {
@@ -286,8 +293,7 @@ export const updateItem = asyncHandler(async (req, res) => {
             try {
                 await storage.delete(uploadedManagedUrlToCleanup);
             }
-            catch (cleanupError) {
-                console.log(cleanupError);
+            catch {
             }
         }
         throw error;
@@ -296,8 +302,7 @@ export const updateItem = asyncHandler(async (req, res) => {
         try {
             await storage.delete(oldManagedUrlToDelete);
         }
-        catch (error) {
-            console.log(error);
+        catch {
         }
     }
     res.status(resStatus.code).json(new ApiResponse(resStatus.code, updatedItem, true, resStatus.msg));
@@ -341,8 +346,7 @@ export const deleteItem = asyncHandler(async (req, res) => {
         try {
             await storage.delete(existingItem.imageURL);
         }
-        catch (error) {
-            console.log(error);
+        catch {
         }
     }
     res.status(200).json(new ApiResponse(200, null, true, "Item deleted successfully"));

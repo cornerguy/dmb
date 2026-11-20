@@ -54,7 +54,6 @@ app.use("/api/v1/restaurant", restaurantRouter);
 app.use("/api/v1/category", categoryRouter);
 app.use("/api/v1/item", itemRouter);
 app.use((req, res) => {
-    console.log(req.url);
     res.status(404).json(new ErrorResponse(404, "INVALID API"));
 });
 app.use(errorMiddleware);

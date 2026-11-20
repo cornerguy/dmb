@@ -19,7 +19,7 @@ export class S3StorageAdapter {
             Key: normalized,
             Body: buffer,
             ContentType: 'image/webp',
-            CacheControl: 'public, max-age=15552000',
+            CacheControl: 'public, max-age=31536000, immutable',
         }));
     }
     async delete(key) {
