@@ -11,10 +11,7 @@ import helmet from "helmet";
 import rateLimit from "express-rate-limit";
 const app = express();
 const STATIC_ORIGINS = new Set([
-    "http://localhost:3000",
-    "http://192.168.1.12:3000",
-    "http://localhost:5173",
-    "https://dmf-bay.vercel.app"
+   "https://digitalmenu.cornertech.in"
 ]);
 app.set("trust proxy", 1);
 const corsError = (message) => {
