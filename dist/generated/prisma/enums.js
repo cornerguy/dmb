@@ -21,7 +21,14 @@ export const overlayStyleN = {
 export const headingFontN = {
     serif: 'serif',
     sans: 'sans',
-    display: 'display'
+    display: 'display',
+    inter: 'inter',
+    poppins: 'poppins',
+    montserrat: 'montserrat',
+    nunito: 'nunito',
+    playfair: 'playfair',
+    lora: 'lora',
+    merriweather: 'merriweather'
 };
 export const headerAlignN = {
     center: 'center',

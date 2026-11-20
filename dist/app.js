@@ -14,8 +14,8 @@ const STATIC_ORIGINS = new Set([
     "http://localhost:3000",
     "http://192.168.1.12:3000",
     "http://localhost:5173",
-    "https://dmf-bay.vercel.app"
 ]);
+app.set("trust proxy", 1);
 const corsError = (message) => {
     const error = new ErrorResponse(403, message);
     error.stack = undefined;
@@ -36,12 +36,13 @@ app.use(cors({
 app.use(helmet({
     crossOriginResourcePolicy: false
 }));
+app.set("trust proxy", 1);
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000,
-    max: 100,
-    message: "Too many requests, please try again later.",
-    standardHeaders: 'draft-8',
+    limit: 1000,
+    standardHeaders: "draft-8",
     legacyHeaders: false,
+    message: "Too many requests, please try again later.",
 });
 app.use(limiter);
 app.use(express.json({ limit: "16KB" }));

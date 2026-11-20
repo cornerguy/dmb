@@ -21,7 +21,7 @@ export const getRestaurantInfo = asyncHandler(async (req, res) => {
     res.status(200).json(new ApiResponse(200, safeRestaurant, true, "Restaurant fetched successfully"));
 });
 export const updateRestaurantInfo = asyncHandler(async (req, res) => {
-    const { restaurant_id, name, tagline, primaryColor, accentColor, tabStyle, logoUrl, backgroundUrl, roundness, showSearch, showItemCount, stickyNav, continuousCollapsible, domain, showDivider, headerText, defaultImageUrl, showItemImage, headerLayout, logoShape, overlayStyle, overlayIntensity, headingFont, headerAlign, headerSize, categoryVariant, categorySize, itemSize, itemImagePosition, itemImageShape, currencySymbol, surfaceColor, boardEnabled, boardText, BodyTextColor, headerAccentPanel, headerPanelIntensity, headerNameGradient, headerUppercaseTagline, headerShimmer, headerNameColor, headerTaglineColor, headerNameGradientFrom, headerNameGradientTo, headerNameGradientAngle, showLogo, logoSize, headerBackgroundPositionX, headerBackgroundPositionY, headerBackgroundZoom, headerDividerStyle, headerSpacing, headerMaxWidth, showPdfDownload, pdfDownloadPlacement } = req.body?.para || {};
+    const { restaurant_id, name, tagline, primaryColor, accentColor, tabStyle, logoUrl, backgroundUrl, roundness, showSearch, showItemCount, stickyNav, continuousCollapsible, domain, showDivider, headerText, defaultImageUrl, showItemImage, headerLayout, logoShape, overlayStyle, overlayIntensity, headingFont, bodyFont, headerAlign, headerSize, categoryVariant, categorySize, itemSize, itemImagePosition, itemImageShape, currencySymbol, surfaceColor, boardEnabled, boardText, BodyTextColor, headerAccentPanel, headerPanelIntensity, headerNameGradient, headerUppercaseTagline, headerShimmer, headerNameColor, headerTaglineColor, headerNameGradientFrom, headerNameGradientTo, headerNameGradientAngle, showLogo, logoSize, headerBackgroundPositionX, headerBackgroundPositionY, headerBackgroundZoom, headerDividerStyle, headerSpacing, headerMaxWidth, showPdfDownload, pdfDownloadPlacement } = req.body?.para || {};
     if (!restaurant_id) {
         res.status(400).json(new ErrorResponse(400, "Missing 'restaurant_id' in request body.para"));
         return;
@@ -76,6 +76,8 @@ export const updateRestaurantInfo = asyncHandler(async (req, res) => {
         updateData.overlayIntensity = overlayIntensity;
     if (headingFont !== undefined)
         updateData.headingFont = headingFont;
+    if (bodyFont !== undefined)
+        updateData.bodyFont = bodyFont;
     if (headerAlign !== undefined)
         updateData.headerAlign = headerAlign;
     if (headerSize !== undefined)
